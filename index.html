@@ -1,1 +1,1216 @@
 
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b090a">
+  <title>HARU HARU — BIGBANG Archive</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=DM+Mono:wght@400;500&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0b090a;
+      --panel: #141112;
+      --red: #d52b35;
+      --muted: #8f8585;
+      --white: #f4eeee;
+      --line: #38282a;
+      --gold: #c4a77d;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--white);
+      font-family: "DM Mono", monospace;
+      min-height: 100vh;
+    }
+
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+
+    .film-grain {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      pointer-events: none;
+      opacity: .09;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+    }
+
+    .topbar {
+      height: 65px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 6%;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+      z-index: 2;
+    }
+
+    .brand {
+      font-family: Oswald, sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 4px;
+    }
+
+    .brand span { color: var(--red); }
+
+    .top-label {
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 2px;
+    }
+
+    .hero {
+      min-height: 410px;
+      padding: 75px 8% 55px;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(11,9,10,.98) 0%, rgba(11,9,10,.82) 55%, rgba(11,9,10,.45) 100%),
+        linear-gradient(0deg, var(--bg), transparent 65%),
+        url("https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1800&q=80") center 48%/cover;
+    }
+
+    .hero::after {
+      content: "2008";
+      position: absolute;
+      right: 4%;
+      bottom: -75px;
+      font-family: Oswald, sans-serif;
+      font-size: clamp(140px, 25vw, 340px);
+      font-weight: 700;
+      color: rgba(255,255,255,.035);
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      color: var(--red);
+      font-size: 11px;
+      letter-spacing: 4px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Oswald, sans-serif;
+      font-size: clamp(65px, 11vw, 130px);
+      line-height: .85;
+      letter-spacing: -3px;
+      font-weight: 700;
+    }
+
+    .korean-title {
+      margin-top: 22px;
+      font-family: "Black Han Sans", sans-serif;
+      font-size: clamp(27px, 5vw, 48px);
+      letter-spacing: 5px;
+    }
+
+    .hero-description {
+      color: #b5a9aa;
+      font-size: 11px;
+      letter-spacing: 2px;
+      margin-top: 22px;
+      line-height: 2;
+    }
+
+    .red-line {
+      width: 55px;
+      height: 3px;
+      background: var(--red);
+      margin-top: 28px;
+    }
+
+    .layout {
+      width: min(1180px, 90%);
+      margin: 0 auto;
+      padding: 35px 0 70px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(300px, .7fr);
+      gap: 24px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      min-width: 0;
+    }
+
+    .panel-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 19px 22px;
+      border-bottom: 1px solid var(--line);
+      gap: 10px;
+    }
+
+    .panel-heading h2 {
+      font: 500 15px Oswald, sans-serif;
+      letter-spacing: 2px;
+      margin: 0;
+    }
+
+    .small-label {
+      color: var(--muted);
+      font-size: 9px;
+      letter-spacing: 1px;
+    }
+
+    .player-content { padding: 23px; }
+
+    .audio-drop {
+      border: 1px dashed #5a383c;
+      background: #100d0e;
+      padding: 24px 18px;
+      text-align: center;
+    }
+
+    .audio-drop strong {
+      display: block;
+      font: 500 16px Oswald, sans-serif;
+      letter-spacing: 2px;
+      margin-bottom: 9px;
+    }
+
+    .audio-drop p {
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.8;
+    }
+
+    .file-button, .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--white);
+      padding: 11px 14px;
+      font-size: 10px;
+      letter-spacing: 1px;
+      transition: .2s;
+    }
+
+    .file-button:hover, .btn:hover {
+      border-color: var(--red);
+      color: #fff;
+    }
+
+    .btn.primary {
+      background: var(--red);
+      border-color: var(--red);
+    }
+
+    .btn.primary:hover { background: #a91d26; }
+
+    input[type="file"] { display: none; }
+
+    .track-info {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      margin: 22px 0 12px;
+      font-size: 10px;
+    }
+
+    #trackName {
+      color: var(--gold);
+      overflow-wrap: anywhere;
+    }
+
+    .time { color: var(--muted); white-space: nowrap; }
+
+    input[type="range"] {
+      accent-color: var(--red);
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .progress { display: block; }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 22px;
+      margin: 18px 0 24px;
+    }
+
+    .control-btn {
+      color: var(--white);
+      border: 0;
+      background: transparent;
+      font-size: 19px;
+      padding: 8px;
+    }
+
+    .control-btn.play {
+      background: var(--red);
+      width: 49px;
+      height: 49px;
+      border-radius: 50%;
+      font-size: 18px;
+    }
+
+    .volume-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .volume-row input { max-width: 130px; }
+
+    .lyrics-stage {
+      min-height: 310px;
+      padding: 32px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background:
+        radial-gradient(ellipse at 50% 65%, rgba(145,24,35,.14), transparent 65%),
+        #100d0e;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stage-index {
+      color: var(--red);
+      font-size: 10px;
+      letter-spacing: 3px;
+      margin-bottom: 27px;
+    }
+
+    #currentKorean {
+      font-family: "Black Han Sans", sans-serif;
+      font-size: clamp(24px, 3vw, 38px);
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+      transition: opacity .2s;
+    }
+
+    #currentRoman {
+      color: var(--gold);
+      font-size: 11px;
+      margin-top: 14px;
+      line-height: 1.8;
+    }
+
+    #currentVietnamese {
+      color: #bdb0b1;
+      font-size: 12px;
+      margin-top: 15px;
+      line-height: 1.8;
+      overflow-wrap: anywhere;
+    }
+
+    .stage-hint {
+      color: #62585a;
+      font-size: 9px;
+      letter-spacing: 1px;
+      margin-top: 27px;
+    }
+
+    .lyrics-tools {
+      padding: 15px 20px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .check-label {
+      color: var(--muted);
+      font-size: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .lyrics-list {
+      max-height: 330px;
+      overflow-y: auto;
+      border-top: 1px solid var(--line);
+    }
+
+    .lyric-row {
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr) 28px;
+      gap: 12px;
+      align-items: center;
+      padding: 13px 16px;
+      border-bottom: 1px solid #291f20;
+      cursor: pointer;
+      transition: .15s;
+    }
+
+    .lyric-row:hover { background: #201617; }
+
+    .lyric-row.active {
+      background: #291416;
+      border-left: 3px solid var(--red);
+    }
+
+    .lyric-time {
+      font-size: 10px;
+      color: var(--gold);
+    }
+
+    .lyric-korean {
+      font-family: "Black Han Sans", sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    .lyric-viet {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 4px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    .edit-line {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 6px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 28px 20px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 2;
+    }
+
+    .editor { margin-top: 24px; }
+
+    .editor-body { padding: 20px; }
+
+    .field { margin-bottom: 15px; }
+
+    .field label {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .field input, .field textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #0c0a0b;
+      color: var(--white);
+      padding: 12px;
+      outline: none;
+      font-size: 12px;
+      border-radius: 0;
+    }
+
+    .field textarea {
+      min-height: 75px;
+      resize: vertical;
+    }
+
+    .field input:focus, .field textarea:focus {
+      border-color: var(--red);
+    }
+
+    .editor-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .utility-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 0 20px 20px;
+    }
+
+    .utility-actions .btn { width: 100%; }
+
+    .note {
+      padding: 16px 20px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.9;
+    }
+
+    .note strong { color: var(--gold); }
+
+    footer {
+      padding: 23px 6%;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      color: var(--muted);
+      font-size: 9px;
+      letter-spacing: 1px;
+      flex-wrap: wrap;
+    }
+
+    .toast {
+      position: fixed;
+      z-index: 20;
+      bottom: 24px;
+      left: 50%;
+      transform: translate(-50%, 20px);
+      opacity: 0;
+      background: var(--red);
+      color: white;
+      padding: 13px 18px;
+      font-size: 11px;
+      pointer-events: none;
+      transition: .25s;
+      max-width: 90%;
+      text-align: center;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    @media (max-width: 850px) {
+      .layout { grid-template-columns: 1fr; }
+      .hero { min-height: 340px; padding-top: 65px; }
+    }
+
+    @media (max-width: 480px) {
+      .topbar { padding: 0 5%; height: 56px; }
+      .top-label { font-size: 8px; }
+      .hero { padding: 60px 6% 45px; }
+      .layout { width: 94%; padding-top: 20px; }
+      .panel-heading { padding: 16px; }
+      .player-content { padding: 15px; }
+      .lyrics-stage { min-height: 280px; padding: 25px 14px; }
+      .controls { gap: 14px; }
+      .editor-body { padding: 15px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="film-grain"></div>
+
+  <header class="topbar">
+    <div class="brand">BIG<span>BANG</span></div>
+    <div class="top-label">VIP ARCHIVE · EST. 2008</div>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">THE SECOND ALBUM · REMEMBER</div>
+    <h1>HARU<br>HARU.</h1>
+    <div class="korean-title">하루하루</div>
+    <div class="hero-description">
+      하루하루 — DAY BY DAY<br>
+      A PERSONAL KOREAN LYRIC EXPERIENCE
+    </div>
+    <div class="red-line"></div>
+  </section>
+
+  <main class="layout">
+    <section>
+      <div class="panel">
+        <div class="panel-heading">
+          <h2>01 / AUDIO PLAYER</h2>
+          <span class="small-label">LOCAL AUDIO</span>
+        </div>
+
+        <div class="player-content">
+          <div class="audio-drop">
+            <strong>PLAY YOUR HARU HARU</strong>
+            <p>Chọn file nhạc của bạn từ thiết bị.<br>Âm thanh được phát trực tiếp trên trình duyệt.</p>
+            <label class="file-button" for="audioFile">＋ CHỌN FILE NHẠC</label>
+            <input id="audioFile" type="file" accept="audio/*">
+          </div>
+
+          <audio id="audio" preload="metadata"></audio>
+
+          <div class="track-info">
+            <span id="trackName">NO TRACK SELECTED</span>
+            <span class="time"><span id="currentTime">00:00</span> / <span id="duration">00:00</span></span>
+          </div>
+
+          <input class="progress" id="progress" type="range" min="0" max="1000" value="0" aria-label="Tiến trình bài hát">
+
+          <div class="controls">
+            <button class="control-btn" id="backBtn" title="Lùi 5 giây">↶ 5</button>
+            <button class="control-btn play" id="playBtn" title="Phát hoặc tạm dừng">▶</button>
+            <button class="control-btn" id="forwardBtn" title="Tiến 5 giây">5 ↷</button>
+          </div>
+
+          <div class="volume-row">
+            <span>VOL</span>
+            <input id="volume" type="range" min="0" max="1" step="0.01" value="0.8" aria-label="Âm lượng">
+            <span id="volumeText">80%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:24px">
+        <div class="panel-heading">
+          <h2>02 / LYRIC EXPERIENCE</h2>
+          <span class="small-label" id="lineCounter">00 LINES</span>
+        </div>
+
+        <div class="lyrics-stage">
+          <div class="stage-index" id="stageIndex">— / HARU HARU —</div>
+          <div id="currentKorean">하루하루</div>
+          <div id="currentRoman">Korean · Romanization</div>
+          <div id="currentVietnamese">Lời dịch tiếng Việt sẽ xuất hiện tại đây.</div>
+          <div class="stage-hint">ADD YOUR LYRICS TO BEGIN</div>
+        </div>
+
+        <div class="lyrics-tools">
+          <label class="check-label">
+            <input type="checkbox" id="showRoman" checked>
+            Hiện phiên âm
+          </label>
+          <label class="check-label">
+            <input type="checkbox" id="autoScroll" checked>
+            Tự theo dòng đang hát
+          </label>
+          <button class="btn" id="fontDown" aria-label="Giảm cỡ chữ">A−</button>
+          <button class="btn" id="fontUp" aria-label="Tăng cỡ chữ">A+</button>
+        </div>
+
+        <div class="lyrics-list" id="lyricsList">
+          <div class="empty-state">
+            CHƯA CÓ LỜI BÀI HÁT<br>
+            Thêm lời và timestamp ở bảng bên cạnh.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside>
+      <div class="panel">
+        <div class="panel-heading">
+          <h2>03 / LYRIC EDITOR</h2>
+          <span class="small-label">KOR + VI</span>
+        </div>
+
+        <div class="editor-body">
+          <div class="field">
+            <label for="timestamp">TIMESTAMP (MM:SS.mmm)</label>
+            <input id="timestamp" type="text" value="00:00.000" placeholder="00:12.500">
+          </div>
+
+          <button class="btn" id="captureTime" style="width:100%;margin-bottom:18px">
+            ◉ LẤY THỜI GIAN HIỆN TẠI
+          </button>
+
+          <div class="field">
+            <label for="korean">KOREAN / 한국어</label>
+            <textarea id="korean" placeholder="Nhập câu tiếng Hàn..."></textarea>
+          </div>
+
+          <div class="field">
+            <label for="roman">ROMANIZATION / PHIÊN ÂM</label>
+            <input id="roman" type="text" placeholder="Nhập phiên âm (không bắt buộc)">
+          </div>
+
+          <div class="field">
+            <label for="vietnamese">VIETSUB / NGHĨA TIẾNG VIỆT</label>
+            <textarea id="vietnamese" placeholder="Nhập nghĩa tiếng Việt..."></textarea>
+          </div>
+
+          <div class="editor-actions">
+            <button class="btn primary" id="saveLine">＋ THÊM DÒNG</button>
+            <button class="btn" id="clearForm">LÀM MỚI</button>
+          </div>
+        </div>
+
+        <div class="panel-heading">
+          <h2>04 / IMPORT & EXPORT</h2>
+        </div>
+
+        <div class="editor-body">
+          <p class="small-label" style="line-height:2;margin-top:0">
+            IMPORT FILE .LRC ĐỂ NẠP LỜI CÓ TIMESTAMP. BẠN CŨNG CÓ THỂ XUẤT LỜI ĐÃ TẠO.
+          </p>
+          <label class="file-button" for="lrcFile" style="width:100%">↑ IMPORT FILE LRC</label>
+          <input id="lrcFile" type="file" accept=".lrc,.txt,text/plain">
+        </div>
+
+        <div class="utility-actions">
+          <button class="btn" id="exportLrc">↓ XUẤT LRC</button>
+          <button class="btn" id="exportJson">↓ BACKUP JSON</button>
+          <button class="btn" id="importJson">↑ IMPORT JSON</button>
+          <input id="jsonFile" type="file" accept=".json,application/json">
+          <button class="btn" id="deleteAll" style="grid-column:1/-1">× XÓA TOÀN BỘ LỜI</button>
+        </div>
+
+        <div class="note">
+          <strong>LƯU Ý</strong><br>
+          Lời bài hát không được nhúng sẵn. Hãy tự nhập lời bạn có quyền sử dụng hoặc import file LRC của bạn. Dữ liệu được lưu trong trình duyệt trên thiết bị hiện tại.
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    <span>BIGBANG · HARU HARU · FAN-MADE PROJECT</span>
+    <span>MADE FOR THE MUSIC, MADE FOR VIP</span>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const $ = (selector) => document.querySelector(selector);
+
+      const audio = $("#audio");
+      const audioFile = $("#audioFile");
+      const progress = $("#progress");
+      const playBtn = $("#playBtn");
+      const trackName = $("#trackName");
+      const currentTime = $("#currentTime");
+      const duration = $("#duration");
+      const volume = $("#volume");
+      const volumeText = $("#volumeText");
+
+      const timestamp = $("#timestamp");
+      const korean = $("#korean");
+      const roman = $("#roman");
+      const vietnamese = $("#vietnamese");
+      const saveLine = $("#saveLine");
+      const lyricsList = $("#lyricsList");
+
+      let lines = [];
+      let editingId = null;
+      let activeId = null;
+      let fontSize = 1;
+      let toastTimer = null;
+      let audioObjectUrl = null;
+
+      const STORAGE_KEY = "haru-haru-lyrics-v1";
+
+      function makeId() {
+        return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+      }
+
+      function showToast(message) {
+        const toast = $("#toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove("show"), 2400);
+      }
+
+      function formatTime(seconds) {
+        if (!Number.isFinite(seconds) || seconds < 0) seconds = 0;
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return String(mins).padStart(2, "0") + ":" +
+          String(secs).padStart(2, "0");
+      }
+
+      function formatTimestamp(seconds) {
+        if (!Number.isFinite(seconds) || seconds < 0) seconds = 0;
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return String(mins).padStart(2, "0") + ":" +
+          secs.toFixed(3).padStart(6, "0");
+      }
+
+      function parseTimestamp(value) {
+        const input = String(value || "").trim();
+        const match = input.match(/^(\d+):([0-5]?\d)(?:[.,](\d{1,3}))?$/);
+        if (!match) return null;
+
+        const minutes = Number(match[1]);
+        const seconds = Number(match[2]);
+        const fraction = match[3] ? Number("0." + match[3]) : 0;
+        return minutes * 60 + seconds + fraction;
+      }
+
+      function saveToStorage() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(lines));
+        } catch (error) {
+          showToast("Không thể lưu dữ liệu trong trình duyệt.");
+        }
+      }
+
+      function loadFromStorage() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+          if (Array.isArray(saved)) {
+            lines = saved
+              .filter(line => line && Number.isFinite(Number(line.time)))
+              .map(line => ({
+                id: String(line.id || makeId()),
+                time: Math.max(0, Number(line.time)),
+                ko: String(line.ko || ""),
+                roman: String(line.roman || ""),
+                vi: String(line.vi || "")
+              }))
+              .sort((a, b) => a.time - b.time);
+          }
+        } catch (error) {
+          lines = [];
+        }
+      }
+
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, character => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#039;"
+        })[character]);
+      }
+
+      function renderLyrics() {
+        $("#lineCounter").textContent =
+          String(lines.length).padStart(2, "0") + " LINES";
+
+        if (lines.length === 0) {
+          lyricsList.innerHTML =
+            '<div class="empty-state">CHƯA CÓ LỜI BÀI HÁT<br>Thêm lời và timestamp ở bảng bên cạnh.</div>';
+          renderActiveLine();
+          return;
+        }
+
+        lyricsList.innerHTML = lines.map((line, index) => `
+          <div class="lyric-row ${line.id === activeId ? "active" : ""}"
+               data-id="${escapeHtml(line.id)}"
+               tabindex="0"
+               role="button"
+               aria-label="Phát từ dòng ${index + 1}">
+            <div class="lyric-time">${formatTime(line.time)}</div>
+            <div>
+              <div class="lyric-korean">${escapeHtml(line.ko || "—")}</div>
+              <div class="lyric-viet">${escapeHtml(line.vi || "Chưa có Vietsub")}</div>
+            </div>
+            <button class="edit-line" data-edit="${escapeHtml(line.id)}" title="Sửa dòng">✎</button>
+          </div>
+        `).join("");
+
+        renderActiveLine();
+      }
+
+      function renderActiveLine() {
+        const index = lines.findIndex(line => line.id === activeId);
+        const line = index >= 0 ? lines[index] : null;
+
+        $("#stageIndex").textContent = line
+          ? String(index + 1).padStart(2, "0") + " / " +
+            String(lines.length).padStart(2, "0")
+          : "— / HARU HARU —";
+
+        $("#currentKorean").textContent = line ? line.ko : "하루하루";
+        $("#currentRoman").textContent = line
+          ? (line.roman || "")
+          : "Korean · Romanization";
+        $("#currentRoman").hidden = !$("#showRoman").checked;
+
+        $("#currentVietnamese").textContent = line
+          ? line.vi
+          : "Lời dịch tiếng Việt sẽ xuất hiện tại đây.";
+
+        const activeRow = lyricsList.querySelector(".lyric-row.active");
+        if (activeRow && $("#autoScroll").checked) {
+          activeRow.scrollIntoView({ block: "nearest", behavior: "smooth" });
+        }
+      }
+
+      function setActiveLine(line) {
+        activeId = line ? line.id : null;
+        lyricsList.querySelectorAll(".lyric-row").forEach(row => {
+          row.classList.toggle("active", row.dataset.id === activeId);
+        });
+        renderActiveLine();
+      }
+
+      function syncActiveLine() {
+        if (lines.length === 0) {
+          setActiveLine(null);
+          return;
+        }
+
+        const time = audio.currentTime || 0;
+        let found = null;
+
+        for (const line of lines) {
+          if (line.time <= time) found = line;
+          else break;
+        }
+
+        if (found && found.id !== activeId) setActiveLine(found);
+      }
+
+      function resetForm() {
+        editingId = null;
+        timestamp.value = formatTimestamp(audio.currentTime || 0);
+        korean.value = "";
+        roman.value = "";
+        vietnamese.value = "";
+        saveLine.textContent = "＋ THÊM DÒNG";
+      }
+
+      function editLine(id) {
+        const line = lines.find(item => item.id === id);
+        if (!line) return;
+
+        editingId = id;
+        timestamp.value = formatTimestamp(line.time);
+        korean.value = line.ko;
+        roman.value = line.roman;
+        vietnamese.value = line.vi;
+        saveLine.textContent = "✓ CẬP NHẬT DÒNG";
+        $("#timestamp").focus();
+      }
+
+      function addOrUpdateLine() {
+        const time = parseTimestamp(timestamp.value);
+        if (time === null) {
+          showToast("Timestamp chưa đúng. Ví dụ: 01:23.500");
+          timestamp.focus();
+          return;
+        }
+
+        if (!korean.value.trim() && !vietnamese.value.trim()) {
+          showToast("Hãy nhập lời tiếng Hàn hoặc nghĩa tiếng Việt.");
+          korean.focus();
+          return;
+        }
+
+        const line = {
+          id: editingId || makeId(),
+          time,
+          ko: korean.value.trim(),
+          roman: roman.value.trim(),
+          vi: vietnamese.value.trim()
+        };
+
+        if (editingId) {
+          lines = lines.map(item => item.id === editingId ? line : item);
+        } else {
+          lines.push(line);
+        }
+
+        lines.sort((a, b) => a.time - b.time);
+        activeId = line.id;
+        saveToStorage();
+        renderLyrics();
+        resetForm();
+        showToast(editingId ? "Đã cập nhật dòng lời." : "Đã thêm dòng lời.");
+      }
+
+      function downloadFile(filename, content, mimeType) {
+        const blob = new Blob([content], { type: mimeType });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      }
+
+      function parseLrc(content) {
+        const parsed = [];
+        const rows = content.replace(/^\uFEFF/, "").split(/\r?\n/);
+
+        for (const row of rows) {
+          const regex = /\[(\d{1,3}):([0-5]\d)(?:[.:](\d{1,3}))?\]/g;
+          const matches = [...row.matchAll(regex)];
+          if (!matches.length) continue;
+
+          const textStart = matches[matches.length - 1].index +
+            matches[matches.length - 1][0].length;
+          const text = row.slice(textStart).trim();
+
+          for (const match of matches) {
+            const fractionText = match[3] || "";
+            const fraction = fractionText
+              ? Number("0." + fractionText)
+              : 0;
+            const time = Number(match[1]) * 60 +
+              Number(match[2]) + fraction;
+
+            parsed.push({
+              id: makeId(),
+              time,
+              ko: text,
+              roman: "",
+              vi: ""
+            });
+          }
+        }
+
+        return parsed.sort((a, b) => a.time - b.time);
+      }
+
+      audioFile.addEventListener("change", () => {
+        const file = audioFile.files && audioFile.files[0];
+        if (!file) return;
+
+        if (audioObjectUrl) URL.revokeObjectURL(audioObjectUrl);
+        audioObjectUrl = URL.createObjectURL(file);
+        audio.src = audioObjectUrl;
+        audio.load();
+        trackName.textContent = file.name;
+        playBtn.textContent = "▶";
+        showToast("Đã tải file nhạc vào trình phát.");
+      });
+
+      playBtn.addEventListener("click", async () => {
+        if (!audio.src) {
+          showToast("Hãy chọn file nhạc trước.");
+          audioFile.click();
+          return;
+        }
+
+        if (audio.paused) {
+          try {
+            await audio.play();
+          } catch (error) {
+            showToast("Không thể phát file này. Hãy thử file âm thanh khác.");
+          }
+        } else {
+          audio.pause();
+        }
+      });
+
+      audio.addEventListener("play", () => playBtn.textContent = "Ⅱ");
+      audio.addEventListener("pause", () => playBtn.textContent = "▶");
+      audio.addEventListener("ended", () => playBtn.textContent = "▶");
+
+      audio.addEventListener("loadedmetadata", () => {
+        duration.textContent = formatTime(audio.duration);
+        progress.value = 0;
+      });
+
+      audio.addEventListener("timeupdate", () => {
+        currentTime.textContent = formatTime(audio.currentTime);
+        if (Number.isFinite(audio.duration) && audio.duration > 0) {
+          progress.value = Math.round(audio.currentTime / audio.duration * 1000);
+        }
+        syncActiveLine();
+      });
+
+      progress.addEventListener("input", () => {
+        if (Number.isFinite(audio.duration) && audio.duration > 0) {
+          audio.currentTime = Number(progress.value) / 1000 * audio.duration;
+        }
+      });
+
+      $("#backBtn").addEventListener("click", () => {
+        audio.currentTime = Math.max(0, (audio.currentTime || 0) - 5);
+      });
+
+      $("#forwardBtn").addEventListener("click", () => {
+        const end = Number.isFinite(audio.duration) ? audio.duration : Infinity;
+        audio.currentTime = Math.min(end, (audio.currentTime || 0) + 5);
+      });
+
+      volume.addEventListener("input", () => {
+        audio.volume = Number(volume.value);
+        volumeText.textContent = Math.round(audio.volume * 100) + "%";
+      });
+
+      $("#captureTime").addEventListener("click", () => {
+        timestamp.value = formatTimestamp(audio.currentTime || 0);
+        showToast("Đã lấy timestamp của bài nhạc.");
+      });
+
+      saveLine.addEventListener("click", addOrUpdateLine);
+      $("#clearForm").addEventListener("click", resetForm);
+
+      lyricsList.addEventListener("click", event => {
+        const editButton = event.target.closest("[data-edit]");
+        if (editButton) {
+          event.stopPropagation();
+          editLine(editButton.dataset.edit);
+          return;
+        }
+
+        const row = event.target.closest(".lyric-row");
+        if (!row) return;
+
+        const line = lines.find(item => item.id === row.dataset.id);
+        if (!line) return;
+
+        setActiveLine(line);
+        audio.currentTime = line.time;
+      });
+
+      lyricsList.addEventListener("keydown", event => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        const row = event.target.closest(".lyric-row");
+        if (!row || event.target.closest("[data-edit]")) return;
+
+        event.preventDefault();
+        const line = lines.find(item => item.id === row.dataset.id);
+        if (!line) return;
+
+        setActiveLine(line);
+        audio.currentTime = line.time;
+      });
+
+      $("#showRoman").addEventListener("change", () => {
+        $("#currentRoman").hidden = !$("#showRoman").checked;
+      });
+
+      $("#fontUp").addEventListener("click", () => {
+        fontSize = Math.min(1.6, fontSize + 0.1);
+        $("#currentKorean").style.fontSize =
+          `clamp(${24 * fontSize}px, ${3 * fontSize}vw, ${38 * fontSize}px)`;
+      });
+
+      $("#fontDown").addEventListener("click", () => {
+        fontSize = Math.max(0.7, fontSize - 0.1);
+        $("#currentKorean").style.fontSize =
+          `clamp(${24 * fontSize}px, ${3 * fontSize}vw, ${38 * fontSize}px)`;
+      });
+
+      $("#lrcFile").addEventListener("change", async event => {
+        const file = event.target.files && event.target.files[0];
+        if (!file) return;
+
+        try {
+          const text = await file.text();
+          const imported = parseLrc(text);
+
+          if (!imported.length) {
+            showToast("Không tìm thấy timestamp LRC hợp lệ.");
+            return;
+          }
+
+          const replace = confirm(
+            "OK: thay thế toàn bộ lời hiện tại.\nCancel: thêm vào lời hiện tại."
+          );
+
+          lines = replace ? imported : lines.concat(imported);
+          lines.sort((a, b) => a.time - b.time);
+          activeId = null;
+          saveToStorage();
+          renderLyrics();
+          showToast("Đã nhập " + imported.length + " dòng từ LRC.");
+        } catch (error) {
+          showToast("Không thể đọc file LRC.");
+        }
+
+        event.target.value = "";
+      });
+
+      $("#exportLrc").addEventListener("click", () => {
+        if (!lines.length) {
+          showToast("Chưa có lời để xuất.");
+          return;
+        }
+
+        const content = lines.map(line => {
+          const minutes = Math.floor(line.time / 60);
+          const seconds = (line.time % 60).toFixed(2).padStart(5, "0");
+          return `[${String(minutes).padStart(2, "0")}:${seconds}]${line.ko}`;
+        }).join("\n");
+
+        downloadFile("haru-haru-lyrics.lrc", content, "text/plain;charset=utf-8");
+      });
+
+      $("#exportJson").addEventListener("click", () => {
+        downloadFile(
+          "haru-haru-lyrics.json",
+          JSON.stringify(lines, null, 2),
+          "application/json;charset=utf-8"
+        );
+      });
+
+      $("#importJson").addEventListener("click", () => $("#jsonFile").click());
+
+      $("#jsonFile").addEventListener("change", async event => {
+        const file = event.target.files && event.target.files[0];
+        if (!file) return;
+
+        try {
+          const imported = JSON.parse(await file.text());
+          if (!Array.isArray(imported)) throw new Error("Invalid format");
+
+          const cleanLines = imported
+            .filter(line => line && Number.isFinite(Number(line.time)))
+            .map(line => ({
+              id: makeId(),
+              time: Math.max(0, Number(line.time)),
+              ko: String(line.ko || ""),
+              roman: String(line.roman || ""),
+              vi: String(line.vi || "")
+            }));
+
+          if (!cleanLines.length) {
+            showToast("File JSON không chứa dòng lời hợp lệ.");
+            return;
+          }
+
+          lines = cleanLines.sort((a, b) => a.time - b.time);
+          activeId = null;
+          saveToStorage();
+          renderLyrics();
+          showToast("Đã nhập dữ liệu JSON.");
+        } catch (error) {
+          showToast("File JSON không hợp lệ.");
+        }
+
+        event.target.value = "";
+      });
+
+      $("#deleteAll").addEventListener("click", () => {
+        if (!lines.length) {
+          showToast("Danh sách lời đang trống.");
+          return;
+        }
+
+        if (!confirm("Bạn có chắc muốn xóa toàn bộ lời bài hát đã lưu?")) return;
+
+        lines = [];
+        activeId = null;
+        saveToStorage();
+        renderLyrics();
+        resetForm();
+        showToast("Đã xóa toàn bộ lời.");
+      });
+
+      loadFromStorage();
+      renderLyrics();
+      resetForm();
+      audio.volume = Number(volume.value);
+    })();
+  </script>
+</body>
+</html>
+
